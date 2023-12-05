@@ -1,4 +1,6 @@
+using Basket.API.GrpcServices;
 using Basket.API.Repositiories;
+using Discount.Grpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -37,33 +39,24 @@ namespace Basket.API
             string redisConnectionString = Configuration.GetValue<string>("CacheSettings:ConnectionString");
 
             if (string.IsNullOrEmpty(redisConnectionString))
-
             {
-
                 // Handle the missing Redis connection string case
-
                 // e.g., log an error, display a message, or use default values
-
                 services.AddDistributedMemoryCache(); // Use an alternative cache provider
-
             }
-
             else
-
             {
-
                 services.AddStackExchangeRedisCache(options =>
-
                 {
-
                     options.Configuration = redisConnectionString;
-
                 });
-
             }
 
 
             services.AddScoped<IBasketRepository, BasketRepository>();
+
+            services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(o => o.Address = new Uri(Configuration["GrpcSettings:DiscountUrl"]));
+            services.AddScoped<DiscountGrpcServices>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
