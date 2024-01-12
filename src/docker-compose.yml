@@ -58,6 +58,7 @@ services:
       context: .
       dockerfile: ApiGateways/OcelotApiGw/Dockerfile
 
+
   shoppin.aggregator:
     image: ${DOCKER_REGISTRY-}shoppinaggregator
     build:
@@ -69,6 +70,7 @@ volumes:
   portainer_data:
   postgres_data:
   pgadmin_data:
+
 
 
 

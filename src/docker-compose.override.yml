@@ -133,7 +133,7 @@ services:
      - "8010:80"
 
 
-  shopping.aggregator:
+  shoppin.aggregator:
     container_name: shopping.aggregator
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -146,3 +146,4 @@ services:
       - ordering.api
     ports:
       - "8005:80"
+
